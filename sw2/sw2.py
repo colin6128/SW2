@@ -12,9 +12,13 @@ display_height = 600
 
 black = (0, 0, 0)
 white = (255, 255, 255)
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
+red = (200, 0, 0)
+green = (0, 200, 0)
+blue = (0, 0, 200)
+
+bright_red = (255, 0, 0)
+bright_green = (0, 255, 0)
+bright_blue = (0, 0, 255)
 
 block_color = (53, 115, 255)
 
@@ -64,6 +68,55 @@ def crash():
     message_display('You Crashed')
 
 
+def button(msg, x, y, w, h, ic, ac, action=None):
+    mouse = pygame.mouse.get_pos()
+    # print(mouse)
+    click = pygame.mouse.get_pressed()
+    # print(click)
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
+        if click[0] == 1 and action is not None:
+            print(msg)
+            action()
+
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
+
+    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    TextSurf, TextRect = text_objects(msg, smallText)
+    TextRect.center = ((x + (w/2)), (y+(h/2)))
+    gameDisplay.blit(TextSurf, TextRect)
+
+
+def quitgame():
+    pygame.quit()
+    quit()
+
+
+def game_intro():
+
+    intro = True
+
+    while intro:
+        for event in pygame.event.get():
+            # print(event)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        gameDisplay.fill(white)
+        largeText = pygame.font.Font('freesansbold.ttf', 115)
+        TextSurf, TextRect = text_objects("A Bit Racy", largeText)
+        TextRect.center = ((display_width/2), (display_height/2))
+        gameDisplay.blit(TextSurf, TextRect)
+
+        button("Go!", 150, 450, 100, 50, green, bright_green, game_loop)
+        button("Quit", 550, 450, 100, 50, red, bright_red, quitgame)
+
+        pygame.display.update()
+        clock.tick(15)
+
+
 def game_loop():
     x = (display_width * 0.45)
     y = (display_height * 0.8)
@@ -105,7 +158,8 @@ def game_loop():
         gameDisplay.fill(white)
 
 #       things(thingx, thingy, thingw, thingh, color)
-        things(thing_startx, thing_starty, thing_width, thing_height, block_color)
+        things(thing_startx, thing_starty, thing_width, thing_height,
+               block_color)
         thing_starty += thing_speed
         car(x, y)
         things_dodged(dodged)
@@ -118,23 +172,24 @@ def game_loop():
             thing_starty = 0 - thing_height
             thing_startx = random.randrange(0, display_width)
             dodged += 1
-            thing_speed += 0.1
-            thing_width += (dodged * 1.2)
+            thing_speed += 0.2
+            thing_width += (dodged * 1.05)
 
         if y < thing_starty + thing_height:
-            print('ycrossover')
+            # print('ycrossover')
 
             if (x > thing_startx and
                     x < thing_startx + thing_width
                     or x + car_width > thing_startx and
                     x + car_width < thing_startx + thing_width):
-                print('xcrossover')
+                # print('xcrossover')
                 crash()
 
         pygame.display.update()
         clock.tick(60)
 
 
+game_intro()
 game_loop()
 pygame.quit()
 quit()
