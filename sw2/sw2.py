@@ -6,6 +6,10 @@ import random
 # initialise pygame
 pygame.init()
 
+# Adding sounds
+crash_sound = pygame.mixer.Sound("audio/crash.wav")
+pygame.mixer.music.load("audio/Power_Switch.wav")
+
 # variables
 display_width = 800
 display_height = 600
@@ -71,6 +75,9 @@ def message_display(text):
 
 
 def crash():
+    pygame.mixer.music.stop()
+    pygame.mixer.Sound.play(crash_sound)
+
     crash = True
 
     while crash:
@@ -126,6 +133,8 @@ def unpause():
 
 
 def paused():
+    pygame.mixer.music.pause()
+
     while pause:
         for event in pygame.event.get():
             # print(event)
@@ -172,6 +181,8 @@ def game_intro():
 
 def game_loop():
     global pause
+
+    pygame.mixer.music.play(-1)
 
     x = (display_width * 0.45)
     y = (display_height * 0.8)
