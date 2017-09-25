@@ -24,13 +24,13 @@ bright_red = (255, 0, 0)
 bright_green = (0, 255, 0)
 bright_blue = (0, 0, 255)
 
-block_color = (53, 115, 255)
+block_color = (53, 115, 255)  # colour of things
 
 car_width = 53
 
 pause = False
 
-# create window
+# create window and associated items
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('A Bit Racey')
 clock = pygame.time.Clock()
@@ -80,12 +80,29 @@ def crash():
 
     crash = True
 
+    # print(dodged)  # Not working as not defined locally
+
     while crash:
         for event in pygame.event.get():
             # print(event)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_s:
+                    print("Start Over S key")
+                    game_loop()
+
+                if event.key == pygame.K_c:
+                    print("Start Over C key")
+                    game_loop()
+
+                if event.key == pygame.K_q:
+                    quitgame()
+
+                if event.key == pygame.K_e:
+                    quitgame()
 
         # gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
@@ -142,7 +159,19 @@ def paused():
                 pygame.quit()
                 quit()
 
-        gameDisplay.fill(white)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    print("Continue key")
+                    unpause()
+
+                if event.key == pygame.K_p:
+                    print("unPause key")
+                    unpause()
+
+                if event.key == pygame.K_q:
+                    quitgame()
+
+        # gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
         TextSurf, TextRect = text_objects("Paused", largeText)
         TextRect.center = ((display_width/2), (display_height/2))
@@ -165,6 +194,18 @@ def game_intro():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_g:
+                    print("Go! key")
+                    game_loop()
+
+                if event.key == pygame.K_s:
+                    print("Start! key")
+                    game_loop()
+
+                if event.key == pygame.K_q:
+                    quitgame()
 
         gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)

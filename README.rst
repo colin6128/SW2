@@ -14,8 +14,13 @@ Use your car to dodge the blocks as you drive down a road.
 Keys:
 Left Cursor = Left
 Right Cursor = Right
+Start Game (Go) = s or g
 Pause = p
-quit = q
+Unpause = p
+Continue = C
+Start Over = s or c
+End game = e
+Quit = q
 
 As you dodge objects the game gets harder.
 
