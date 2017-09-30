@@ -1,7 +1,7 @@
 # import libs
 import pygame
-import time
 import random
+import time
 
 # initialise pygame
 pygame.init()
@@ -9,6 +9,7 @@ pygame.init()
 # Adding sounds
 crash_sound = pygame.mixer.Sound("audio/crash.wav")
 pygame.mixer.music.load("audio/Power_Switch.wav")
+
 
 # variables
 display_width = 800
@@ -64,7 +65,7 @@ def text_objects(text, font):
 def message_display(text):
     largeText = pygame.font.Font('freesansbold.ttf', 115)
     TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = ((display_width/2), (display_height/2))
+    TextRect.center = ((display_width / 2), (display_height / 2))
     gameDisplay.blit(TextSurf, TextRect)
 
     pygame.display.update()
@@ -107,7 +108,7 @@ def crash():
         # gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
         TextSurf, TextRect = text_objects("You Crashed", largeText)
-        TextRect.center = ((display_width/2), (display_height/2))
+        TextRect.center = ((display_width / 2), (display_height / 2))
         gameDisplay.blit(TextSurf, TextRect)
 
         button("Start Over", 150, 450, 150, 50, green, bright_green, game_loop)
@@ -133,7 +134,7 @@ def button(msg, x, y, w, h, ic, ac, action=None):
 
     smallText = pygame.font.Font("freesansbold.ttf", 20)
     TextSurf, TextRect = text_objects(msg, smallText)
-    TextRect.center = ((x + (w/2)), (y+(h/2)))
+    TextRect.center = ((x + (w / 2)), (y + (h / 2)))
     gameDisplay.blit(TextSurf, TextRect)
 
 
@@ -174,7 +175,7 @@ def paused():
         # gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
         TextSurf, TextRect = text_objects("Paused", largeText)
-        TextRect.center = ((display_width/2), (display_height/2))
+        TextRect.center = ((display_width / 2), (display_height / 2))
         gameDisplay.blit(TextSurf, TextRect)
 
         button("Continue", 150, 450, 150, 50, green, bright_green, unpause)
@@ -210,7 +211,7 @@ def game_intro():
         gameDisplay.fill(white)
         largeText = pygame.font.Font('freesansbold.ttf', 115)
         TextSurf, TextRect = text_objects("A Bit Racey", largeText)
-        TextRect.center = ((display_width/2), (display_height/2))
+        TextRect.center = ((display_width / 2), (display_height / 2))
         gameDisplay.blit(TextSurf, TextRect)
 
         button("Go!", 150, 450, 100, 50, green, bright_green, game_loop)
