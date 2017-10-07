@@ -4,7 +4,7 @@ Setting up schmup program.
 
 Importing required libraries and setting global variables.
 """
-import os
+from os import path
 import pygame
 import random
 
@@ -33,7 +33,8 @@ bright_cyan = (0, 255, 255)
 # WIndows: "C:\Users\cag\Documents"
 # Apple Mac "/Users/cag/Documents"
 # Linux "/home/cag/Documents"
-game_folder = os.path.dirname(__file__)
+game_dir = path.dirname(__file__)
+img_dir = path.join(game_dir, "img")
 
 # intilise pygame and create window
 pygame.init()
@@ -44,12 +45,24 @@ clock = pygame.time.Clock()
 
 
 class Player(pygame.sprite.Sprite):
+    """Creates the player."""
+
     # sprite for the player
     def __init__(self):
+        """Illustrate player.
+
+        Initialises the player and draws them.
+        """
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 40))  # simple starting sprite
-        self.image.fill(green)
+        # Simple graphic
+        # self.image = pygame.Surface((50, 40))  # simple starting sprite
+        # self.image.fill(green)
+        # image for graphic
+        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
+        self.radius = 19
+        # pygame.draw.circle(self.image, red, self.rect.center, self.radius)
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
         self.speedx = 0
@@ -77,9 +90,17 @@ class Mob(pygame.sprite.Sprite):
     # sprite for the enemies - computer controlled sprites
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30, 40))  # simple starting sprite
-        self.image.fill(red)
+        # self.image = pygame.Surface((30, 40))  # simple starting sprite
+        # self.image.fill(red)
+
+        # image for graphic
+        # come back and randomly select mob image between meteor and ship
+        # self.image = pygame.transform.scale(mob_ship_img, (50, 38))
+        self.image = meteor_img
+        self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
+        self.radius = int(self.rect.width * 0.85 / 2)
+        # pygame.draw.circle(self.image, red, self.rect.center, self.radius)
         self.rect.x = random.randrange(0, WIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 8)
@@ -100,8 +121,10 @@ class Bullet(pygame.sprite.Sprite):
     # sprite for the bullet shot by player
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((10, 20))  # simple starting sprite
-        self.image.fill(yellow)
+        # self.image = pygame.Surface((10, 20))  # simple starting sprite
+        # self.image.fill(yellow)
+        self.image = bullet_img
+        self.image.set_colorkey(black)
         self.rect = self.image.get_rect()
         self.rect.bottom = y
         self.rect.centerx = x
@@ -113,6 +136,14 @@ class Bullet(pygame.sprite.Sprite):
         if self.rect.bottom < 0:
             self.kill()
 
+
+# Load all game graphics
+background = pygame.image.load(path.join(img_dir, "starfield.png")).convert()
+background_rect = background.get_rect()
+player_img = pygame.image.load(path.join(img_dir, "player.png")).convert()
+meteor_img = pygame.image.load(path.join(img_dir, "meteorSmall.png")).convert()
+bullet_img = pygame.image.load(path.join(img_dir, "laserGreen.png")).convert()
+mob_ship_img = pygame.image.load(path.join(img_dir, "enemyShip.png")).convert()
 
 # set up sprite group
 all_sprites = pygame.sprite.Group()
@@ -150,12 +181,15 @@ while running:
         mobs.add(m)
 
     # check to see if a mob hit the player
-    hits = pygame.sprite.spritecollide(player, mobs,  False)
+    #   hits = pygame.sprite.spritecollide(player, mobs,  False)
+    hits = (pygame.sprite.spritecollide(
+            player, mobs,  False, pygame.sprite.collide_circle))
     if hits:
         running = False
 
 # Draw / render
     screen.fill(black)
+    screen.blit(background, background_rect)
     all_sprites.draw(screen)
 
     # after drawing ever  ythng, flip the display
