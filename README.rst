@@ -24,6 +24,19 @@ Quit = q
 
 As you dodge objects the game gets harder.
 
+
+Installation
+=========
+
+Currently only available as Python 3 scripts. Run sw.pyfrom the directory  .../SW2/sw2
+
+The game requires python3 and pygame to be installed.
+
+Usage
+=====
+
+Within the terminal run 'python3 sw2.py'
+
 Note
 ====
 

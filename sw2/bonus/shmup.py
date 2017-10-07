@@ -1,4 +1,9 @@
-# schmup game
+#! /usr/bin/env python3
+"""
+Setting up schmup program.
+
+Importing required libraries and setting global variables.
+"""
 import os
 import pygame
 import random
@@ -157,3 +162,4 @@ while running:
     pygame.display.flip()
 
 pygame.quit()
+quit()
